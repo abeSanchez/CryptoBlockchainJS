@@ -16,17 +16,17 @@ class Blockchain {
     }
 
     static isValidChain(chain) {
-        if (!chain) return false;
-
-        if (JSON.stringify(chain[0]) !== JSON.stringify(Block.genesis()))
+        if (!chain || JSON.stringify(chain[0]) !== JSON.stringify(Block.genesis()))
             return false;
 
         for (let i = 1; i < chain.length; i++) {
-            const { timestamp, lastHash, hash, data } = chain[i];
+            const { timestamp, lastHash, hash, data, nonce, difficulty } = chain[i];
             const actualLashHash = chain[i - 1].hash;
+            const lastDifficulty = chain[i - 1].difficulty;
 
             if (lastHash !== actualLashHash) return false;
-            if (cryptoHash(timestamp, lastHash, data) !== hash) return false;
+            if (cryptoHash(timestamp, lastHash, data, nonce, difficulty) !== hash) return false;
+            if (Math.abs(lastDifficulty - difficulty) > 1) return false;
         }
 
         return true;
