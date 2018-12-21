@@ -1,7 +1,7 @@
 const GENESIS_DATA = {
-    timestamp: 1,
-    lastHash: '-----',
-    hash: 'first-hash',
+    timestamp: -1,
+    lastHash: 'genesis',
+    hash: 'genesis',
     data: []
 };
 
